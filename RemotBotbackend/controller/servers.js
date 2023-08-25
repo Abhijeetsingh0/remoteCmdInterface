@@ -24,6 +24,20 @@ module.exports.getServersByHostName = async (req,res)=>{
 }
 
 
+
+module.exports.getServersByServerName = async (req,res)=>{
+    try{
+        const { serverName } = req.params
+        const serverByHost = await serversDetails.find({serverName})
+        console.log(serverByHost)
+        return res.status(200).send(serverByHost)
+    }catch(err){
+        console.error('Error:', err);
+        res.status(500).json({ error: `An error occurred : ${err}` });
+    }
+}
+
+
 module.exports.getServersByUserName = async (req,res)=>{
     try{
         const { userName } = req.params
@@ -51,14 +65,14 @@ module.exports.deletServer = async (req,res) => {
 
 
 module.exports.postServers = async (req, res) => {
-        const response = {}
-        try{
-            console.log(req.body)
-            response.newServerDetail = await serversDetails({...req.body}).save()
-            response.status = 200
-            return res.status(response.status).send(response)
-        }catch(err){
-            console.error('Error:', err);
-            res.status(500).json({ error: `An error occurred : ${err}` });
-        }
+    const response = {}
+    try{
+        console.log(req.body)
+        response.newServerDetail = await serversDetails({...req.body}).save()
+        response.status = 200
+        return res.status(response.status).send(response)
+    }catch(err){
+        console.error('Error:', err);
+        res.status(500).json({ error: `An error occurred : ${err}` });
+    }
 }
