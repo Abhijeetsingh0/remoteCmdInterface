@@ -15,7 +15,6 @@ app.use("/servers",require("./router/servers"))
 
 var PORT = 8001
 
-
 app.listen(PORT,()=>{
     console.log(`server listening at ${PORT}`)
 })

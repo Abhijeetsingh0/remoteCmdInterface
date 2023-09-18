@@ -1,24 +1,20 @@
 {
-  "name": "remotbotbackend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "node server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "mongoose": "^7.4.3",
+    "mongoose": "^7.5.2",
     "nodemon": "^3.0.1",
-    "remote-exec": "^0.0.3",
-    "simple-ssh": "^1.1.1",
-    "ssh-exec": "^2.0.0",
-    "ssh2": "^1.14.0",
-    "ssh2shell": "^1.9.10"
-  }
+    "simple-ssh": "^1.1.1"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "name": "remotbotbackend",
+  "version": "1.0.0",
+  "main": "host.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

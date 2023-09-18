@@ -20,7 +20,7 @@ module.exports.postCommand = async (req, res) => {
         const { serverName , host, userName, password, command } = req.body;
         const responses = {};
         console.log('Command:', command);
-
+        console.log(req.body)
         const ssh = new SSH({
             host: host,
             user: userName,

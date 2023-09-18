@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 
-module.exports = () =>{
+module.exports = async () =>{
     const dbName = 'myDB1';
-    const dbUrl = `mongodb://127.0.0.1/${dbName}`;
+    const dbUrl = `mongodb://172.26.163.173:27017/${dbName}`;
     mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
       .then(() => {
         console.log(`Connected to MongoDB, DB name ${dbName}`);

@@ -1,0 +1,26 @@
+/* Navbar.css */
+.navbar {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar ul li {
+    font-size: 18px;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  
