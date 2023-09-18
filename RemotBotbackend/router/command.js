@@ -6,8 +6,12 @@ const commandController = require('../controller/command');
 // Add routes
 router.get('/', commandController.getCommand);
 router.post('/', commandController.postCommand);
-router.get('/:host/:userName',commandController.getCommandsHostAndUser)
+router.get('/server/:serverName',commandController.getCommandsServerName)
 router.get('/:host',commandController.getCommandsHost)
-router.get('/:serverName',commandController.getCommandsServerName)
+router.get('/:host/:userName',commandController.getCommandsHostAndUser)
+
+
+
+
 
 module.exports = router;

@@ -19,7 +19,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route path="/servers" component={Servers} />
           <Route path="/addServer" component={addServer}/>
-          <Route path="/command/:id" component={Command} />
+          <Route path="/command/server/:serverName" component={Command} />
         </Switch>
       </div>
     </Router>

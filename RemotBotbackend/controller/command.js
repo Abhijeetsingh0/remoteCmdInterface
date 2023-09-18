@@ -5,7 +5,6 @@ const {commandDetails} = require("../database/modles/commands");
 module.exports.getCommand = async (req,res) =>{
     try{
         const responses = {}
-        const { _id } = req.params
         const resp = await commandDetails.find() 
         responses.data = resp
         res.send({...responses,status:200})
@@ -72,8 +71,8 @@ module.exports.getCommandsHostAndUser = async (req,res) =>{
     const responses = {}
     try{
         const { host , userName } = req.params
-        console.log(host,userName)
         responses.data = await commandDetails.find({host,userName})
+        console.log(host, userName, responses.data)
         res.send({...responses,status:200})
     }catch(err){
         console.error('Error:', err);
@@ -85,8 +84,8 @@ module.exports.getCommandsHost = async (req,res) =>{
     const responses = {}
     try{
         const { host } = req.params
-        console.log(host,userName)
         responses.data = await commandDetails.find({host})
+        console.log(host,responses.data)
         res.send({...responses,status:200})
     }catch(err){
         console.error('Error:', err);
@@ -98,7 +97,6 @@ module.exports.getCommandsServerName = async (req,res) =>{
     const responses = {}
     try{
         const { serverName } = req.params
-        console.log(host,userName)
         responses.data = await commandDetails.find({serverName})
         res.send({...responses,status:200})
     }catch(err){

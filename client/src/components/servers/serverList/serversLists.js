@@ -48,7 +48,7 @@ function ServerList() {
               <td>{server.host}</td>
               <td>{server.userName}</td>
               <td>{server.password}</td>
-              <td> <Link to={`/command/${server._id}`} > <Button variant="primary">Click</Button></Link></td>
+              <td> <Link to={`/command/server/${server.serverName}`} > <Button variant="primary">Click</Button></Link></td>
             </tr>
           ))}
         </tbody>
