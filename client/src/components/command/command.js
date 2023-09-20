@@ -2,7 +2,35 @@ import React, { useState, useEffect } from "react";
 import { Button,Card,ListGroup } from "react-bootstrap";
 import "./command.css"
 import {useHistory} from "react-router-dom"
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import Table from 'react-bootstrap/Table';
+
 // import { Link } from "react-router-dom/cjs/react-router-dom.min";
+
+    const OffCanvasExample = ({ name, outPut,date ,...props }) => {
+        const [show, setShow] = useState(false);
+        const handleClose = () => setShow(false);
+        const handleShow = () => setShow(true);
+        // console.log(date)
+        const formattedDate = (new Date(date)).toLocaleString();
+        return (
+          <div className="d-grid gap-2">
+            <Button  variant="outline-info" size="lg" onClick={handleShow}>
+            -command: "<b>{name}</b>"| Date and Time : {formattedDate}
+            </Button>
+            <Offcanvas show={show} onHide={handleClose} {...props}>
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <pre>
+                    {outPut}
+                </pre>
+              </Offcanvas.Body>
+            </Offcanvas>
+          </div>
+        );
+    }
 
 const CommandPage = (props) => {
   const { serverName } = props.match.params;
@@ -27,6 +55,7 @@ const CommandPage = (props) => {
         alert(`An error ${error.message}. Redirecting to home page.`);
         history.push("/");
       });
+
   }, [serverName,history]);
 
   useEffect(() => {
@@ -47,6 +76,8 @@ const CommandPage = (props) => {
         history.push("/");
       });
   }, [serverName,history]);
+
+  
 
 //   console.log(typeof(serverData))
   const arrayData = []
@@ -93,25 +124,19 @@ const CommandPage = (props) => {
         </div>
         <span/>
 
+        <Card>
         {arrayData.map((item,index)=>(
             <div key={index}>
-            <Card>
-            <Card.Header>Here date and time will come</Card.Header>
-            <Card.Body>
-              <blockquote className="blockquote mb-0">
-                <pre>
-                  {' '}
-                  {item["outPut"]}
-                  {' '}
-                </pre>
-                <footer className="blockquote-footer">
-                  command run is <cite title="Source Title">{stringSpliterForSu(item["command"]).length === 2 ? stringSpliterForSu(item["command"])[1] : item.command }</cite>
-                </footer>
-              </blockquote>
-            </Card.Body>
-          </Card>
+                <Table >
+                    <thead>
+                      <tr>
+                        <th><OffCanvasExample key={index} placement="bottom" name={stringSpliterForSu(item.command).length === 2 ? stringSpliterForSu(item["command"])[1] : item.command } command={item.command} outPut={item.outPut} date={item.createdAt} /></th>
+                      </tr>
+                    </thead>
+                </Table>
             </div>
         ))}
+        </Card>
        
     </div>
   );

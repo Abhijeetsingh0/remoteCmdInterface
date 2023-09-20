@@ -22,6 +22,10 @@ const commandSechma = mongoose.Schema({
         type: String,
         required: true,  
     },
+    createdAt: {
+        type: Date,
+        default: Date.now, 
+    },
 })
 
 const commandDetails = mongoose.model("commandDetails",commandSechma)
