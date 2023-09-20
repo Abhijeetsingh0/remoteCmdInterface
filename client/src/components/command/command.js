@@ -50,7 +50,7 @@ const CommandPage = (props) => {
 
 //   console.log(typeof(serverData))
   const arrayData = []
-  for(let i = 0 ; i < serverData.length ; i++){
+  for(let i = serverData.length-1 ; i >= 0 ; i--){
     arrayData.push(serverData[i])
   }
 
@@ -60,6 +60,19 @@ const CommandPage = (props) => {
         state: { data: serverDetails },
       });
   }
+
+    const stringSpliterForSu = (inputText) =>{
+        const parts = inputText.split('-S');
+        if (parts.length === 2) {
+          const txt1 = parts[0].trim() + '-S';
+          const txt2 = parts[1].trim();       
+          console.log("txt1:", txt1);
+          console.log("txt2:", txt2);
+          return [txt1, txt2]
+        } else {
+          return inputText
+        }
+    }
 
   return (
     <div>
@@ -92,7 +105,7 @@ const CommandPage = (props) => {
                   {' '}
                 </pre>
                 <footer className="blockquote-footer">
-                  command run is <cite title="Source Title">{item["command"]}</cite>
+                  command run is <cite title="Source Title">{stringSpliterForSu(item["command"]).length === 2 ? stringSpliterForSu(item["command"])[1] : item.command }</cite>
                 </footer>
               </blockquote>
             </Card.Body>
