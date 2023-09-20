@@ -10,6 +10,7 @@ import Servers from "./components/servers/servers"
 import addServer from "./components/servers/addServer/addServer"
 import Command from './components/command/command';
 import RunCommandOnServer from './components/command/runCommand';
+import Alerts from './components/alerts/alerts';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/addServer" component={addServer}/>
           <Route path="/command/server/:serverName" component={Command} />
           <Route path="/commandOnServer" component={RunCommandOnServer} />
+          <Route path="/alerts" component={Alerts} />
         </Switch>
       </div>
     </Router>

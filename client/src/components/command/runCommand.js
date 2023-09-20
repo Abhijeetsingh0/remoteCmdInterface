@@ -14,7 +14,7 @@ const RunCommandOnServer = (props) =>{
     const history = useHistory()
 
     const [showA, setShowA] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
     const [formData,setFormData] = useState({
         serverName : serverDetails.serverName,
         userName   : serverDetails.userName,
@@ -36,9 +36,13 @@ const RunCommandOnServer = (props) =>{
             formData.command = `echo ${formData.password} | sudo -S ${formData.command}`
         }
         e.preventDefault();
+        
+        setIsLoading(true);
+
+
         // Assuming you have an API endpoint to send the data to
         const apiUrl = 'http://localhost:8001/command';
-        console.log(formData)
+        
     
         fetch(apiUrl, {
           method: 'POST',
@@ -58,10 +62,11 @@ const RunCommandOnServer = (props) =>{
             console.log("Error:",error)
             alert(`An error ${error.message}. Redirecting to home page.`);
             history.push("/");
+        }).finally(() => {
+            setIsLoading(false); // Stop loading after API call is complete
         });
     };
 
-    const [sudo, SetSudo] = useState(false)
     const toggleShowA = () => setShowA(!showA);
 
 
@@ -90,6 +95,13 @@ const RunCommandOnServer = (props) =>{
        </div>
 
 
+       {isLoading && (
+            <div className="loading-overlay">
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        )}
 
 
         <div className="form-ind server-form-container">

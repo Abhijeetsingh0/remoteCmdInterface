@@ -23,7 +23,7 @@ const AddServerForm = () => {
     e.preventDefault();
     // Assuming you have an API endpoint to send the data to
     const apiUrl = 'http://localhost:8001/servers';
-    console.log(formData)
+    // console.log(formData)
 
     fetch(apiUrl, {
       method: 'POST',
@@ -35,7 +35,7 @@ const AddServerForm = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Server data sent:', data);
+        // console.log('Server data sent:', data);
         // Handle the response as needed
         history.push("/servers")
       })

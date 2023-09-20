@@ -77,7 +77,7 @@ const CommandPage = (props) => {
   return (
     <div>
         <h1>
-        <Button onClick={RunCommandOnServerTrigger} variant="outline-success">Run command on the server</Button>
+        <Button onClick={RunCommandOnServerTrigger} variant="primary" size="lg" >Run command on the server</Button>
         </h1>
 
         <span/>

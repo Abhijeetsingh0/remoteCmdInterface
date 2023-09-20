@@ -13,9 +13,9 @@ function Navbar() {
           <li>
             <Link to="/servers">Servers</Link>
           </li>
-          {/* <li>
-            <Link to="/commands">Commands</Link>
-          </li> */}
+          <li>
+            <Link to="/alerts">Alerts</Link>
+          </li>
         </ul>
       </nav>
     </div>
