@@ -49,14 +49,15 @@ const RunCommandOnServer = (props) =>{
             history.push(`/command/server/${serverDetails.serverName}`)
           })
           .catch((error) => {
-            console.error('Error:', error);
+            console.log("Error:",error)
+            alert(`An error ${error.message}. Redirecting to home page.`);
+            history.push("/");
         });
     };
 
     const [sudo, SetSudo] = useState(false)
     const toggleShowA = () => setShowA(!showA);
 
-    console.log(serverDetails)
 
     return(
         <div>

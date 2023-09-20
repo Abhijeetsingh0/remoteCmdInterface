@@ -23,10 +23,8 @@ const CommandPage = (props) => {
         setServerData(data.data); // Now serverData is an array
       })
       .catch((error) => {
-        console.error("Error:", error);
-        // Show an alert message
-        alert("An error occurred. Redirecting to home page.");
-        // Redirect to the home page
+        console.log("Error:",error)
+        alert(`An error ${error.message}. Redirecting to home page.`);
         history.push("/");
       });
   }, [serverName,history]);
@@ -44,10 +42,8 @@ const CommandPage = (props) => {
         setServerDetails(data[0]);
       })
       .catch((error) => {
-        console.error("Error:", error);
-        // Show an alert message
-        alert("An error occurred. Redirecting to home page.");
-        // Redirect to the home page
+        console.log("Error:",error)
+        alert(`An error ${error.message}. Redirecting to home page.`);
         history.push("/");
       });
   }, [serverName,history]);

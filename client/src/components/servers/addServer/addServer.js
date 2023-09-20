@@ -40,7 +40,9 @@ const AddServerForm = () => {
         history.push("/servers")
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.log("Error:",error)
+        alert(`An error ${error.message}. Redirecting to home page.`);
+        history.push("/");
       });
   };
 

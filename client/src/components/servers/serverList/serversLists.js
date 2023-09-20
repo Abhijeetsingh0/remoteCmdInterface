@@ -23,13 +23,28 @@ function ServerList() {
         setServers(data)
       })
       .catch((error) => {
-        console.error("Error:", error);
-        // Show an alert message
-        alert("An error occurred. Redirecting to home page.");
-        // Redirect to the home page
+        console.log("Error:",error)
+        alert(`An error ${error.message}. Redirecting to home page.`);
         history.push("/");
       })
-  }, [history]);
+  }, [history,servers]);
+
+  const deleteServer = (id) => {
+      const apiUrl = `http://localhost:8001/servers/${id}`
+      fetch(apiUrl,{
+        method : "DELETE",
+        headers:{
+          'Content-Type' : 'appplication/json',
+        },
+      }).then((response)=>response.json())
+      .then((data)=>{
+        alert(`ID: ${id} is deleted`)
+      }).catch((error)=>{
+        console.log("Error:",error)
+        alert(`An error ${error.message}. Redirecting to home page.`);
+        history.push("/");
+      })
+  }
 
   return (
     <div>
@@ -40,8 +55,8 @@ function ServerList() {
             <th>Server Name</th>
             <th>Host</th>
             <th>User Name</th>
-            <th>Password</th>
             <th>GoTo</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -50,8 +65,8 @@ function ServerList() {
               <td>{server.serverName}</td>
               <td>{server.host}</td>
               <td>{server.userName}</td>
-              <td>{server.password}</td>
               <td> <Link to={`/command/server/${server.serverName}`} > <Button variant="primary">Click</Button></Link></td>
+              <td> <Button variant="outline-danger" onClick={()=>deleteServer(server._id)}> Delete </Button> </td>
             </tr>
           ))}
         </tbody>
