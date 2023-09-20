@@ -35,8 +35,8 @@ const RunCommandOnServer = (props) =>{
         if(isSudo){
             formData.command = `echo ${formData.password} | sudo -S ${formData.command}`
         }
-        e.preventDefault();
         
+        e.preventDefault();
         setIsLoading(true);
 
 

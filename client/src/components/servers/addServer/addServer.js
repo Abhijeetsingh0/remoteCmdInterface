@@ -10,7 +10,7 @@ const AddServerForm = () => {
     userName: '',
     password: '',
   });
-
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 
 
@@ -20,8 +20,9 @@ const AddServerForm = () => {
   };
 
   const handleSubmit = (e) => {
+
     e.preventDefault();
-    // Assuming you have an API endpoint to send the data to
+    setIsLoading(true);
     const apiUrl = 'http://localhost:8001/servers';
     // console.log(formData)
 
@@ -43,10 +44,22 @@ const AddServerForm = () => {
         console.log("Error:",error)
         alert(`An error ${error.message}. Redirecting to home page.`);
         history.push("/");
+      }).finally(() => {
+        setIsLoading(false); // Stop loading after API call is complete
       });
   };
 
   return (
+    <div>
+      
+    {isLoading && (
+      <div className="loading-overlay">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    )}
+
     <div className="form-ind server-form-container">
       <label><h2>Fill the Server Information</h2></label>
       <form onSubmit={handleSubmit}>
@@ -96,6 +109,7 @@ const AddServerForm = () => {
         </div>
         <button type="submit">Add Server</button>
       </form>
+    </div>
     </div>
   );
 }
