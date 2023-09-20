@@ -1,13 +1,13 @@
 // ServerList.js
 import React, { useState, useEffect } from 'react';
 import "./serversList.css"
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 
 function ServerList() {
   const [servers, setServers] = useState([]);
-
+  const history = useHistory();
 
   useEffect(() => {
     const apiUrl = 'http://localhost:8001/servers';
@@ -19,14 +19,17 @@ function ServerList() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Server data sent:', data);
         // Handle the response as needed
         setServers(data)
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
+        // Show an alert message
+        alert("An error occurred. Redirecting to home page.");
+        // Redirect to the home page
+        history.push("/");
       })
-  }, []);
+  }, [history]);
 
   return (
     <div>

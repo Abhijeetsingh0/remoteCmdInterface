@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button,Card,ListGroup } from "react-bootstrap";
 import "./command.css"
 import {useHistory} from "react-router-dom"
+// import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const CommandPage = (props) => {
   const { serverName } = props.match.params;
@@ -57,10 +58,17 @@ const CommandPage = (props) => {
     arrayData.push(serverData[i])
   }
 
+  const RunCommandOnServerTrigger = () =>{
+    history.push({
+        pathname: "/commandOnServer",
+        state: { data: serverDetails },
+      });
+  }
+
   return (
     <div>
         <h1>
-          <Button>Run command on the server</Button>
+        <Button onClick={RunCommandOnServerTrigger} variant="outline-success">Run command on the server</Button>
         </h1>
 
         <span/>
