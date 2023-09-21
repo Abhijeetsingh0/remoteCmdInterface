@@ -24,7 +24,6 @@ module.exports.getServersByHostName = async (req,res)=>{
 }
 
 
-
 module.exports.getServersByServerName = async (req,res)=>{
     try{
         const { serverName } = req.params

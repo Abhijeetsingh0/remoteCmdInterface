@@ -4,23 +4,38 @@ import "./command.css"
 import {useHistory} from "react-router-dom"
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Table from 'react-bootstrap/Table';
+import { BACKEND_URL } from "../../variable";
+
 
 // import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
-    const OffCanvasExample = ({ name, outPut,date ,...props }) => {
+    const OffCanvasExample = ({ name, outPut,date ,id ,...props }) => {
         const [show, setShow] = useState(false);
         const handleClose = () => setShow(false);
         const handleShow = () => setShow(true);
         // console.log(date)
         const formattedDate = (new Date(date)).toLocaleString();
+
+        // console.log(id)
+        var command = name.replace(/ > \/tmp\/log.txt && cat \/tmp\/log.txt && > \/tmp\/log.txt/g, '');
+        // command = command.replace(/log.txt/g, '')
+        // command = command.replace(/>/g, '')
+        // command = command.replace(/cat/g, '')
+      
+
+
         return (
-          <div className="d-grid gap-2">
-            <Button  variant="outline-info" size="lg" onClick={handleShow}>
-            -command: "<b>{name}</b>"| Date and Time : {formattedDate}
-            </Button>
+          <div >
+              <div className="center-div" >
+                <Button  variant="outline-info" size="lg" onClick={handleShow} style={{marginTop:'10px'}}>
+                  -command: "<b>{command}</b>"| Date and Time : {formattedDate}
+                </Button>
+              </div>
+            
+           
             <Offcanvas show={show} onHide={handleClose} {...props}>
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                <Offcanvas.Title><b>{command}</b></Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <pre>
@@ -39,7 +54,7 @@ const CommandPage = (props) => {
   const history = useHistory()
 
   useEffect(() => {
-    const apiUrl = `http://localhost:8001/command/server/${serverName}`;
+    const apiUrl = `${BACKEND_URL}/command/server/${serverName}`;
     fetch(apiUrl, {
       method: 'GET',
       headers: {
@@ -59,7 +74,7 @@ const CommandPage = (props) => {
   }, [serverName,history]);
 
   useEffect(() => {
-    const apiUrl = `http://localhost:8001/servers/${serverName}`;
+    const apiUrl = `${BACKEND_URL}/servers/${serverName}`;
     fetch(apiUrl, {
       method: 'GET',
       headers: {
@@ -77,7 +92,6 @@ const CommandPage = (props) => {
       });
   }, [serverName,history]);
 
-  
 
 //   console.log(typeof(serverData))
   const arrayData = []
@@ -97,8 +111,8 @@ const CommandPage = (props) => {
         if (parts.length === 2) {
           const txt1 = parts[0].trim() + '-S';
           const txt2 = parts[1].trim();       
-          console.log("txt1:", txt1);
-          console.log("txt2:", txt2);
+          // console.log("txt1:", txt1);
+          // console.log("txt2:", txt2);
           return [txt1, txt2]
         } else {
           return inputText
@@ -107,12 +121,12 @@ const CommandPage = (props) => {
 
   return (
     <div>
-        <h1>
+        <h1 className="marginHead">
         <Button onClick={RunCommandOnServerTrigger} variant="primary" size="lg" >Run command on the server</Button>
         </h1>
 
         <span/>
-        <div className="serverDetails">
+        <div className="serverDetails" style={{ display: 'flex', justifyContent: 'center' }}>
         <Card style={{ width: '18rem' }}>
             <Card.Header>Name: {serverDetails.serverName}</Card.Header>
             <ListGroup variant="flush">
@@ -125,12 +139,19 @@ const CommandPage = (props) => {
         <span/>
 
         <Card>
+        <Table >
+          <thead>
+            <tr>
+              <th style={{textAlign:'center'}}>click on below buttons to get the output also</th>
+            </tr>
+          </thead>
+        </Table>
         {arrayData.map((item,index)=>(
             <div key={index}>
                 <Table >
                     <thead>
                       <tr>
-                        <th><OffCanvasExample key={index} placement="bottom" name={stringSpliterForSu(item.command).length === 2 ? stringSpliterForSu(item["command"])[1] : item.command } command={item.command} outPut={item.outPut} date={item.createdAt} /></th>
+                        <th><OffCanvasExample key={index} placement="start" name={stringSpliterForSu(item.command).length === 2 ? stringSpliterForSu(item["command"])[1] : item.command } command={item.command} outPut={item.outPut} date={item.createdAt} id={item._id}/></th>
                       </tr>
                     </thead>
                 </Table>

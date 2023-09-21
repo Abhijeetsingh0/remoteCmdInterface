@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
 import { Form } from 'react-bootstrap';
+import { BACKEND_URL } from '../../variable';
 
 const RunCommandOnServer = (props) =>{
 
@@ -33,17 +34,18 @@ const RunCommandOnServer = (props) =>{
 
     const handleSubmit = (e) => {
         if(isSudo){
-            formData.command = `echo ${formData.password} | sudo -S ${formData.command}`
+            formData.command = `echo ${formData.password} | sudo -S ${formData.command} > /tmp/log.txt && cat /tmp/log.txt && > /tmp/log.txt`
+        }else{
+          formData.command = `${formData.command} > /tmp/log.txt && cat /tmp/log.txt && > /tmp/log.txt`
         }
-        
+
         e.preventDefault();
         setIsLoading(true);
 
 
         // Assuming you have an API endpoint to send the data to
-        const apiUrl = 'http://localhost:8001/command';
+        const apiUrl = `${BACKEND_URL}/command`;
         
-    
         fetch(apiUrl, {
           method: 'POST',
           headers: {

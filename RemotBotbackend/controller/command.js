@@ -98,7 +98,19 @@ module.exports.getCommandsServerName = async (req,res) =>{
     try{
         const { serverName } = req.params
         responses.data = await commandDetails.find({serverName})
-        res.send({...responses,status:200})
+        res.send({...responses, status:200})
+    }catch(err){
+        console.error('Error:', err);
+        res.status(500).json({ error: `An error occurred : ${err}` });
+    }
+}
+
+module.exports.deleteCommand = async (req,res) => {
+    const responses = {}
+    try{
+        const { _id } = req.params
+        responses.message = await commandDetails.findOneAndDelete(_id)
+        res.send({...responses, state:200})
     }catch(err){
         console.error('Error:', err);
         res.status(500).json({ error: `An error occurred : ${err}` });

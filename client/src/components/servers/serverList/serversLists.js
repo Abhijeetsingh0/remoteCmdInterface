@@ -3,14 +3,20 @@ import React, { useState, useEffect } from 'react';
 import "./serversList.css"
 import { Link, useHistory } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { BACKEND_URL } from '../../../variable';
 
 
 function ServerList() {
+
+  
+
   const [servers, setServers] = useState([]);
+  const [deleted, setDeleted] = useState(0)
   const history = useHistory();
 
   useEffect(() => {
-    const apiUrl = 'http://localhost:8001/servers';
+    // console.log(BACKEND_URL)
+    const apiUrl = `${BACKEND_URL}/servers`;
     fetch(apiUrl, {
       method: 'GET',
       headers: {
@@ -27,10 +33,10 @@ function ServerList() {
         alert(`An error ${error.message}. Redirecting to home page.`);
         history.push("/");
       })
-  }, [history,servers]);
+  }, [history,deleted]);
 
   const deleteServer = (id) => {
-      const apiUrl = `http://localhost:8001/servers/${id}`
+      const apiUrl = `${BACKEND_URL}/servers/${id}`
       fetch(apiUrl,{
         method : "DELETE",
         headers:{
@@ -38,7 +44,12 @@ function ServerList() {
         },
       }).then((response)=>response.json())
       .then((data)=>{
+
         alert(`ID: ${id} is deleted`)
+        // const updatedServers = servers.filter((server) => server.id !== id);
+        // setServers(updatedServers);
+        setDeleted(deleted+1)
+
       }).catch((error)=>{
         console.log("Error:",error)
         alert(`An error ${error.message}. Redirecting to home page.`);

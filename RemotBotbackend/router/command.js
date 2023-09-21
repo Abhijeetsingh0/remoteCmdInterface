@@ -9,9 +9,6 @@ router.post('/', commandController.postCommand);
 router.get('/server/:serverName',commandController.getCommandsServerName)
 router.get('/:host',commandController.getCommandsHost)
 router.get('/:host/:userName',commandController.getCommandsHostAndUser)
-
-
-
-
+router.delete('/remove/:_id',commandController.deleteCommand)
 
 module.exports = router;
