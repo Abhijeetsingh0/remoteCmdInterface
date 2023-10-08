@@ -13,8 +13,9 @@ dbConnection()
 
 app.use("/command",require("./router/command"))
 app.use("/servers",require("./router/servers"))
+app.use("/alert",  require("./router/alerts"))
 
-var PORT = 8001
+var PORT = 8000
 
 app.listen(PORT,()=>{
     console.log(`server listening at ${PORT}`)
@@ -30,3 +31,4 @@ app.use((err,req,res,next)=>{
         body : {}
     })
 })
+

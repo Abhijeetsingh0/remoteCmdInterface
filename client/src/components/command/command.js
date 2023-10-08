@@ -5,6 +5,7 @@ import {useHistory} from "react-router-dom"
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Table from 'react-bootstrap/Table';
 import { BACKEND_URL } from "../../variable";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 
 // import { Link } from "react-router-dom/cjs/react-router-dom.min";
@@ -18,11 +19,6 @@ import { BACKEND_URL } from "../../variable";
 
         // console.log(id)
         var command = name.replace(/ > \/tmp\/log.txt && cat \/tmp\/log.txt && > \/tmp\/log.txt/g, '');
-        // command = command.replace(/log.txt/g, '')
-        // command = command.replace(/>/g, '')
-        // command = command.replace(/cat/g, '')
-      
-
 
         return (
           <div >
@@ -111,8 +107,6 @@ const CommandPage = (props) => {
         if (parts.length === 2) {
           const txt1 = parts[0].trim() + '-S';
           const txt2 = parts[1].trim();       
-          // console.log("txt1:", txt1);
-          // console.log("txt2:", txt2);
           return [txt1, txt2]
         } else {
           return inputText
@@ -142,7 +136,7 @@ const CommandPage = (props) => {
         <Table >
           <thead>
             <tr>
-              <th style={{textAlign:'center'}}>click on below buttons to get the output also</th>
+              <th style={{textAlign:'center'}}>click on below buttons to get the output also <Link to={`/alerts?serverName=${serverDetails.serverName}`}><Button variant="outline-primary" size="md">but</Button></Link> </th>
             </tr>
           </thead>
         </Table>
