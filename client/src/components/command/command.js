@@ -44,7 +44,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
     }
 
 const CommandPage = (props) => {
-  const { serverName } = props.match.params;
+  const {serverName} = props.match.params;
   const [serverData, setServerData] = useState([]); // Initialize as an empty array
   const [serverDetails, setServerDetails] = useState({});
   const history = useHistory()
@@ -136,7 +136,7 @@ const CommandPage = (props) => {
         <Table >
           <thead>
             <tr>
-              <th style={{textAlign:'center'}}>click on below buttons to get the output also <Link to={`/alerts?serverName=${serverDetails.serverName}`}><Button variant="outline-primary" size="md">but</Button></Link> </th>
+              <th style={{textAlign:'center'}}>Click here to manage your alert for the respective server <Link to={`/alerts?serverName=${serverDetails.serverName}`}><Button variant="outline-primary" size="md">but</Button></Link> </th>
             </tr>
           </thead>
         </Table>

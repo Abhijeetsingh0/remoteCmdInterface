@@ -14,7 +14,7 @@ function Navbar() {
             <Link to="/servers">Servers</Link>
           </li>
           <li>
-            <Link to="/alerts">Alerts</Link>
+            <Link to="/alertmessage">Alerts</Link>
           </li>
         </ul>
       </nav>

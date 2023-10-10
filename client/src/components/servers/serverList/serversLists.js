@@ -2,9 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import "./serversList.css"
 import { Link, useHistory } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button,Container } from 'react-bootstrap';
 import { BACKEND_URL } from '../../../variable';
-
 
 function ServerList() {
 
@@ -60,28 +59,30 @@ function ServerList() {
   return (
     <div>
       <h1>Server List</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Server Name</th>
-            <th>Host</th>
-            <th>User Name</th>
-            <th>GoTo</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {servers.map((server, index) => (
-            <tr key={index}>
-              <td>{server.serverName}</td>
-              <td>{server.host}</td>
-              <td>{server.userName}</td>
-              <td> <Link to={`/command/server/${server.serverName}`} > <Button variant="primary">Click</Button></Link></td>
-              <td> <Button variant="outline-danger" onClick={()=>deleteServer(server._id)}> Delete </Button> </td>
+      <Container>
+        <table>
+          <thead>
+            <tr>
+              <th>Server Name</th>
+              <th>Host</th>
+              <th>User Name</th>
+              <th>GoTo</th>
+              <th>Delete</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {servers.map((server, index) => (
+              <tr key={index}>
+                <td>{server.serverName}</td>
+                <td>{server.host}</td>
+                <td>{server.userName}</td>
+                <td> <Link to={`/command/server/${server.serverName}`} > <Button variant="primary">Click</Button></Link></td>
+                <td> <Button variant="outline-danger" onClick={()=>deleteServer(server._id)}> Delete </Button> </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Container>
     </div>
   );
 }

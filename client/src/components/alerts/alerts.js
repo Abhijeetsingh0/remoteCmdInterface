@@ -4,6 +4,8 @@ import { BACKEND_URL } from "../../variable";
 import { Button, Container} from "react-bootstrap";
 import { Offcanvas } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import NewAlert from "./newAlert";
+
 
 const AlertDetails = (props) => {
     const [show, setShow] = useState(false);
@@ -38,6 +40,7 @@ const Alerts = () => {
     const { search } = useLocation();
     const [alertsOnServer, setAlertsOnServer] = useState([])
     const params = new URLSearchParams(search);
+    const [serverDetail , setServerDetail] = useState()
     const serverName = params.get('serverName');
     const [deleted, setDeleted] = useState(0)
     const history = useHistory();
@@ -57,7 +60,27 @@ const Alerts = () => {
             console.log("Error:",error)
             alert(`An error ${error.message}. Redirecting to home page.`);
         })
+        getServerDetails(serverName)
+
     },[history,deleted])
+
+    const getServerDetails = async (serverName) =>{
+
+      const apiUrl = `${BACKEND_URL}/servers/${serverName}`;
+      fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => response.json())
+        .then((data) => {
+          setServerDetail(data)
+        })
+        .catch((error) => {
+          console.log("Error:",error)
+          alert(`An error ${error.message}. Redirecting to home page.`);
+      })
+    }
 
     const deleteServer = (id) =>{
         const apiUrl = `${BACKEND_URL}/alert/${id}`
@@ -68,11 +91,8 @@ const Alerts = () => {
           },
         }).then((response)=>response.json())
         .then((data)=>{
-  
-          alert(`ID: ${id} is deleted`)
-
-          setDeleted(deleted+1)
-  
+            alert(`ID: ${id} is deleted`)
+            setDeleted(deleted+1)
         }).catch((error)=>{
           console.log("Error:",error)
           alert(`An error ${error.message}. Redirecting to home page.`);
@@ -83,7 +103,8 @@ const Alerts = () => {
     return(
         <div>
             <h1>Alerts</h1>
-            <Container>                
+            <Container>    
+                <NewAlert data={serverDetail}/>   
                 <table>
                 <tbody>
                 {alertsOnServer.map((alertOnServer,index)=>(

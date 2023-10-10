@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import './addServer.css'
 import { useHistory } from 'react-router-dom';
+import { BACKEND_URL } from '../../../variable';
 
 const AddServerForm = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ const AddServerForm = () => {
 
     e.preventDefault();
     setIsLoading(true);
-    const apiUrl = 'http://localhost:8001/servers';
+    const apiUrl = `${BACKEND_URL}/servers`;
     // console.log(formData)
 
     fetch(apiUrl, {
