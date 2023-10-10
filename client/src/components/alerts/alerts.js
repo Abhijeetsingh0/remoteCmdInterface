@@ -17,8 +17,8 @@ const AlertDetails = (props) => {
 
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
-          Launch
+        <Button variant="outline-primary" onClick={handleShow}>
+          Details
         </Button>
   
         <Offcanvas show={show} onHide={handleClose}>
@@ -62,7 +62,7 @@ const Alerts = () => {
         })
         getServerDetails(serverName)
 
-    },[history,deleted])
+    },[history,deleted,serverName])
 
     const getServerDetails = async (serverName) =>{
 
@@ -111,6 +111,7 @@ const Alerts = () => {
                     <tr key={index}>
                     <td>{alertOnServer.serverName}</td>
                     <td>{alertOnServer.alertType}</td>
+
                     <td><AlertDetails data={alertOnServer}/></td>
                     <td> <Button variant="outline-danger" onClick={()=>deleteServer(alertOnServer._id)}> Delete </Button> </td>
                     </tr>

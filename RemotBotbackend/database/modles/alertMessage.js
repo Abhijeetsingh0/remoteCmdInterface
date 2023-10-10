@@ -1,11 +1,10 @@
 const mongoose = require("mongoose")
 
-const alertSchema = mongoose.Schema({
+const alertMessageSchema = mongoose.Schema({
     serverName:{
         type: String,
         required: true,
-    }
-    ,
+    },
     host:{
         type : String,
         required : true,
@@ -18,8 +17,8 @@ const alertSchema = mongoose.Schema({
         type: String,
         required: true,  
     },
-    alertDetails:{
-        type: Array,
+    message:{
+        type: String,
         required: true,
     },
     createdAt: {
@@ -28,6 +27,6 @@ const alertSchema = mongoose.Schema({
     },
 })
 
-const alertDetails = mongoose.model("alertDetails", alertSchema)
+const alertMessage = mongoose.model("alertMessage", alertMessageSchema)
 
-module.exports = {alertDetails}
+module.exports = {alertMessage}
