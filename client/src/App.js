@@ -13,12 +13,14 @@ import RunCommandOnServer from './components/command/runCommand';
 import Alerts from './components/alerts/alerts';
 import Test from './components/test/test';
 import AlertMessage from './components/alerts/alertMessage';
+import Notifi from './components/notifi';
 
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <Notifi/>
         <Navbar />
         <Switch>
           <Route exact path="/" component={Home} />

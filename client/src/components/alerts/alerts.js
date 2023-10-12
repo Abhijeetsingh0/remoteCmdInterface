@@ -98,6 +98,7 @@ const Alerts = () => {
           alert(`An error ${error.message}. Redirecting to home page.`);
           history.push("/");
         })
+        // console.log(id)
     }
 
     return(

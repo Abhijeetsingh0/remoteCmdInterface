@@ -38,7 +38,7 @@ module.exports.deleteAlertOnId = async (req, res)  => {
     const responses = {}
     try{
         const { _id } = req.params
-        responses.message = await alertDetails.findOneAndDelete(_id)
+        responses.message = await alertDetails.findOneAndDelete({_id})
         res.send({...responses, state:200})
     }catch(err){
         console.error('Error:', err);

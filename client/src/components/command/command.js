@@ -136,7 +136,7 @@ const CommandPage = (props) => {
         <Table >
           <thead>
             <tr>
-              <th style={{textAlign:'center'}}>Click here to manage your alert for the respective server <Link to={`/alerts?serverName=${serverDetails.serverName}`}><Button variant="outline-primary" size="md">but</Button></Link> </th>
+              <th style={{textAlign:'center'}}>Click here to manage your alert for the respective server <Link to={`/alerts?serverName=${serverDetails.serverName}`}><Button variant="outline-primary" size="lg">but</Button></Link> </th>
             </tr>
           </thead>
         </Table>

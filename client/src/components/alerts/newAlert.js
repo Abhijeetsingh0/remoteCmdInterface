@@ -57,7 +57,7 @@ const NewAlert = ({data}) => {
         })
           .then((response) => response.json())
           .then((data) => {
-            alert("Alert added")
+            alert("Alert added",data)
             history.push(`/command/server/${serverDetails.serverName}`)
           })
           .catch((error) => {
