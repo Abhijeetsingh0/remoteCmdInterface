@@ -5,9 +5,9 @@ import { Notifications } from 'react-push-notification';
 
 const Notifi = () =>{
 
-    const [temp, setTemp] = useState(10)
-    const [messageCount, setMessageCount] = useState(2)
-
+    const [temp, setTemp] = useState(0)
+    const [messageCount, setMessageCount] = useState(0)
+    
     useEffect(()=>{
       setInterval(() => {
         setTemp((prevTemp)=>prevTemp+1)
@@ -16,7 +16,7 @@ const Notifi = () =>{
 
     useEffect(()=>{
       fetchData()
-    }, [temp])
+    }, [temp,messageCount])
 
     const fetchData = () =>{
         // console.log("test")
@@ -30,14 +30,14 @@ const Notifi = () =>{
           .then((data) => {
             // console.log(data.data.length)
             if(messageCount !== data.data.length){
-                //push notification
-                // addNotification({
-                //     title: 'Message',
-                //     subtitle: 'New Message recived',
-                //     message: 'New Message recived',
-                //     theme: 'darkblue'
-                // });
-                setMessageCount(data.data.length)
+                // push notification
+              addNotification({
+                  title: 'Message',
+                  subtitle: 'New Message',
+                  message: "message",
+                  theme: 'darkblue'
+              });
+              setMessageCount(data.data.length)
             }
           })
           .catch((error) => {
@@ -45,9 +45,10 @@ const Notifi = () =>{
             alert(`An error ${error.message}. Redirecting to home page.`);
         })
     }
-    // return(
-    //     <Notifications/>
-    // )
+    return(
+        // if()
+        <Notifications/>
+    )
 }
 
 export default Notifi

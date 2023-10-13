@@ -21,7 +21,6 @@ app.listen(PORT,()=>{
     console.log(`server listening at ${PORT}`)
 })
 
-
 app.use((err,req,res,next)=>{
     console.log(`Somthing went wrong ${err}`)
     res.status(500);

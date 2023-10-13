@@ -1,0 +1,333 @@
+#model destory
+
+
+juju models
+juju destroy-model chnsircanslv --force -y
+juju add-model --config default-series=focal chnsircanslv
+
+ 
+
+ 
+#model config
+
+root@CHSRSLVMAAS01:/home/npcidcl2/chnsircanslv/juju-bootstrap#
+
+run the sh file there
+run to check the config "juju model-config"
+
+ 
+
+ 
+
+Now add cnr
+juju add-machine --constraints "tags=controller-1 zones=silver"
+ 
+
+juju ssh 0
+    sudo su
+    sudo systemctl stop apparmor.service
+    sudo systemctl disable apparmor.service
+
+    sudo systemctl stop ufw.service
+    sudo systemctl disable ufw.service
+
+    #Add the below lines: in this file
+
+    # vim /etc/systemd/timesyncd.conf
+
+
+    #        [Time]
+    #        NTP=10.91.8.148 10.91.8.149 10.8.43.133 10.8.43.134
+    #        FallbackNTP=10.8.43.135 10.8.43.136
+    #        RootDistanceMaxSec=1
+
+    # systemctl restart systemd-timesyncd
+
+    #Add the below lines: in this file
+
+    vim /etc/default/grub
+      GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT apparmor=0 ipv6.disable=1"
+
+    sudo update-grub
+
+
+    echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
+    echo "net.ipv6.conf.all.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+    echo "net.ipv6.conf.default.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+    echo "net.ipv6.conf.lo.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+
+    
+
+    sysctl -p
+    sudo apt upgrade -y
+    sed -i 's/APT::Periodic::Unattended-Upgrade "1";/APT::Periodic::Unattended-Upgrade "0";/g' /etc/apt/apt.conf.d/20auto-upgrades
+    sudo reboot
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+mass
+
+ 
+
+/home/npcidcl2/chnsircanslv/clusterstorm
+
+run 2 sh file
+
+ 
+
+ 
+
+then we need to initiate vault
+
+ 
+
+unset no_proxy http_proxy https_proxy
+
+export VAULT_ADDR="http://10.221.0.97:8200"
+
+vault operator init -key-shares=6 -key-threshold=3 >> vault_data_$(date +%Y%m%dT%H%M%S)
+
+ 
+
+ 
+
+then we need to unseal using any 3 Key
+
+export VAULT_TOKEN="s.jYB22Yuh9MrlU9fQIuvzk6w8"
+export VAULT_ADDR="http://10.221.0.97:8200"
+
+juju run --wait vault/leader authorize-charm token="s.jYB22Yuh9MrlU9fQIuvzk6w8"
+
+s.a2fbDhKpK9th0StL209HcjUJ
+s.jYB22Yuh9MrlU9fQIuvzk6w8
+ 
+
+juju run vault/leader generate-root-ca >> root_ca_$(date +%Y%m%dT%H%M%S)
+
+ 
+
+ 
+
+# vault operator unseal yPO/ToH4ElZ3quL4vRP3jje4ZD6d1ohMlAz3IZWgzWRe
+
+ 
+
+# vault operator unseal yPO/ToH4ElZ3quL4vRP3jje4ZD6d1ohMlAz3IZWgzWRe
+
+# vault operator unseal w11sN1xcGvJv1Aeh0N5VFYZBhimHLh/QffdJTN7P9NY8
+
+# vault operator unseal y+QGEi0zAax1i5wHJ/B1F7/Kih826NdiPf2yGBEdZhjE
+
+# Unseal Key 4: h85nxI1EJFHpZ0vwUvE77MWyDJ96vc2RzpEOtIezEVpT
+
+# Unseal Key 5: FISUI8mpu2oEIZazZA1Tffkq4Z7m+x+yN1GCDIFgfq71
+
+# Unseal Key 6: wEgmni5GxHRIRXUVUKNGBzoEM7An67SUr+3VCkbCnXTm
+export VAULT_ADDR="http://10.221.0.24:8200"
+
+vault operator unseal 1v5pHlY806Ws+ZCCtb+QYOUvuOtshuDy41pKa3J03Yye
+vault operator unseal IbGDVChEsDIO99VFRNQACKP13NoQ51XViyUR8gsB4onG
+vault operator unseal yNLiqRP2xnZE+ttWwtQ9ZpvqP7rEvl9Eoo61uBychjWg
+vault operator unseal hQawiLAQABRHKwIa1MT452njbszklo8jGXQEBmTcAlZi
+vault operator unseal noUnCGcy3t4NHHHpid6iCOGoRCpMVIBUCnq1UCeHr/Nj
+vault operator unseal 9TdX8Xki3D/GuGuwqOGGtMktI4AMfUj2KhhVO+/Sa+F6
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+juju add-unit nova-compute --to 22
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+[Time]
+NTP=10.91.8.148 10.91.8.149 10.8.43.133 10.8.43.134
+FallbackNTP=10.8.43.135 10.8.43.136
+RootDistanceMaxSec=1
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+192.168.63.217
+
+                                               192.168.63.218
+
+                                               192.168.63.5
+
+=================
+
+#!/bin/bash
+
+#STOP FIREWALL & APPARMOR
+sudo systemctl stop apparmor.service
+sudo systemctl disable apparmor.service
+sudo systemctl stop ufw.service
+sudo systemctl disable ufw.service
+
+#update timesyncd disable
+echo 'NTP=10.91.8.148 10.91.8.149 10.8.43.133 10.8.43.134' >> /etc/systemd/timesyncd.conf
+echo 'FallbackNTP=10.8.43.135 10.8.43.136' >> /etc/systemd/timesyncd.conf
+echo 'RootDistanceMaxSec=1'  >>  /etc/systemd/timesyncd.conf
+#systemctl restart systemd-timesyncd
+systemctl stop systemd-timesyncd.service
+systemctl disable systemd-timesyncd.service
+
+#chronyd service restart   
+apt install chrony -y
+echo "server hydrcomntp.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+echo "server chnporntp.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+echo "server mumjogntp.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+echo "server chnsttntp.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+echo "server npcintppool.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+echo "server hydnarntp.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+sudo systemctl enable chronyd
+sudo systemctl restart chronyd
+sudo systemctl restart chronyd.service
+timedatectl set-timezone Asia/Kolkata
+
+ #UPDATE GRUB
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=""/GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT apparmor=0 ipv6.disable=1"/g' /etc/default/grub
+sudo update-grub
+
+ #SYSCTL UPDATES
+echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.all.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.default.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.lo.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+sysctl -p
+sudo apt upgrade -y
+
+#STOP UPDATES
+sed -i 's/APT::Periodic::Unattended-Upgrade "1";/APT::Periodic::Unattended-Upgrade "0";/g' /etc/apt/apt.conf.d/20auto-upgrades
+
+
+
+10.221.0.61
+10.221.0.62
+10.221.0.63
+10.221.0.66
+10.221.0.68
+10.221.0.69
+
+
+for i in `juju machines | grep cmp | awk '{print$1}'`; do 
+chmod +x prereq.sh && scp prereq.sh ubuntu@$i:/home/ubuntu/ && juju ssh  $i && chmod 777 /home/ubuntu/prereq.sh && bash /home/ubuntu/prereq.sh;
+done;
+
+
+
+
+
+
+#!/bin/bash
+
+#STOP FIREWALL & APPARMOR
+sudo systemctl stop apparmor.service
+sudo systemctl disable apparmor.service
+sudo systemctl stop ufw.service
+sudo systemctl disable ufw.service
+
+#update timesyncd disable
+# echo 'NTP=10.91.8.148 10.91.8.149 10.8.43.133 10.8.43.134' >> /etc/systemd/timesyncd.conf
+# echo 'FallbackNTP=10.8.43.135 10.8.43.136' >> /etc/systemd/timesyncd.conf
+# echo 'RootDistanceMaxSec=1'  >>  /etc/systemd/timesyncd.conf
+#systemctl restart systemd-timesyncd
+systemctl stop systemd-timesyncd.service
+systemctl disable systemd-timesyncd.service
+
+#chronyd service restart   
+apt install chrony -y
+echo "server hydrcomntp.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+echo "server chnporntp.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+echo "server mumjogntp.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+echo "server chnsttntp.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+echo "server npcintppool.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+echo "server hydnarntp.tools.npcitech.io iburst" >> /etc/chrony/chrony.conf
+sudo systemctl enable chronyd
+sudo systemctl restart chronyd
+sudo systemctl restart chronyd.service
+timedatectl set-timezone Asia/Kolkata
+
+ #UPDATE GRUB
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=""/GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT apparmor=0 ipv6.disable=1"/g' /etc/default/grub
+sudo update-grub
+
+ #SYSCTL UPDATES
+echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.all.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.default.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.lo.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+sysctl -p
+sudo apt upgrade -y
+
+
+#STOP UPDATES
+sed -i 's/APT::Periodic::Unattended-Upgrade "1";/APT::Periodic::Unattended-Upgrade "0";/g' /etc/apt/apt.conf.d/20auto-upgrades
+
+
+
+multipath -ll
+echo "- - -" > /sys/class/scsi_host/host0/scan 
+echo "- - -" > /sys/class/scsi_host/host1/scan 
+echo "- - -" > /sys/class/scsi_host/host2/scan 
+echo "- - -" > /sys/class/scsi_host/host3/scan 
+echo "- - -" > /sys/class/scsi_host/host4/scan 
+echo "- - -" > /sys/class/scsi_host/host5/scan 
+rescan-scsi-bus.sh
+sed -i 's/user_friendly_names yes/user_friendly_names no/g' /etc/multipath.conf 
+systemctl enable multipathd.service 
+systemctl restart multipathd.service 
+multipath -ll 
+for host in `ls /sys/class/fc_host`; do cat /sys/class/fc_host/$host/port_name ; done;
+for host in `ls /sys/class/fc_host`; do cat /sys/class/fc_host/$host/port_state ; done;
+
+
+
+
+juju run ceph-osd/0 add-disk osd-devices='/dev/mapper/360002ac0000000000000005d000242ad'
