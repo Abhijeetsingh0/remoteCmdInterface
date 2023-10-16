@@ -8,11 +8,15 @@ const alertSchema = mongoose.Schema({
     ,
     host:{
         type : String,
-        required : true,
+        required: true,
     },
     userName:{
         type: String,
-        required : true,
+        required: true,
+    },
+    password:{
+        type: String,
+        required: true,
     },
     alertType:{
         type: String,
