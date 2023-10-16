@@ -1,0 +1,25 @@
+.custom-select {
+    appearance: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background:#ebebeb;
+    color: #333;
+    width: 20%;
+  }
+  
+  .custom-select::placeholder {
+    color: #999;
+  }
+  
+  .custom-select:hover {
+    border-color: #85fff5;
+  }
+  
+  .custom-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }

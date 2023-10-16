@@ -1,10 +1,11 @@
 import { useState} from "react";
-import { Button, Container, Spinner } from "react-bootstrap";
+import { Button, Container, Spinner} from "react-bootstrap";
 import { BACKEND_URL } from "../../variable";
 import { useHistory } from "react-router-dom";
+import "./alerts.css"
 
 const NewAlert = ({data}) => {
-    const [alerType, setAlertType] = useState("");
+    const [alertType, setAlertType] = useState("");
     const [formData, setFormData] = useState({
         first:'',
         second:'',
@@ -40,7 +41,7 @@ const NewAlert = ({data}) => {
             host: serverDetails.host,
             userName: serverDetails.userName,
             password: serverDetails.password,
-            alertType: alerType,
+            alertType: alertType,
             alertDetails:[formData.first,formData.second,formData.third]
         }
 
@@ -74,19 +75,146 @@ const NewAlert = ({data}) => {
         <div>
             <Container>
                
-                <label>Select an Alert Type:</label>
-                <select value={alerType} onChange={handleOptionChange}>
-                  <option value="">Select an option</option>
-                  <option value="tcp">TCP</option>
-                  <option value="exec">Exec</option>
-                  <option value="url">URL</option>
-                </select>
-                
-                <p>Alert Type: <b>{alerType.toUpperCase()}</b></p>
-                <div className="form-group"><input type="text" placeholder="Tcp port" id="first" name="first" value={formData.first} onChange={handleChange}/> </div>
-                <div className="form-group"><input type="text" placeholder="Message" id="second" name="second" value={formData.second} onChange={handleChange}/> </div>
-                <div className="form-group"> <input type="text" placeholder="Enter the webhook url or none" id="third" name="third" value={formData.third} onChange={handleChange}/> </div>
-                <Button variant="outline-success" onClick={submitForm}>submit</Button>
+            <label>Select an Alert Type:</label>
+              <br/>
+              <select
+                value={alertType}
+                onChange={handleOptionChange}
+                className="custom-select"
+              >
+                <option value="">Select an option</option>
+                <option value="tcp">TCP</option>
+                <option value="exec">SERVICE</option>
+                <option value="url">URL</option>
+              </select>
+
+              {alertType === "" ? (
+                <div>Please select the Alert Type</div>
+                ) : alertType === "tcp" ? (
+                  <div>
+                    <p>
+                      Alert Type: <b>{alertType.toUpperCase()}</b>
+                    </p>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        placeholder="Please Enter Tcp port"
+                        id="first"
+                        name="first"
+                        value={formData.first}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        placeholder="Message"
+                        id="second"
+                        name="second"
+                        value={formData.second}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        placeholder="Enter the webhook URL or none"
+                        id="third"
+                        name="third"
+                        value={formData.third}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <Button variant="outline-success" onClick={submitForm}>
+                      Submit
+                    </Button>
+                  </div>
+                ) : alertType === "url" ? (
+                  <div>
+                    <p>
+                      Alert Type: <b>{alertType.toUpperCase()}</b>
+                    </p>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        placeholder="Please Enter the URL"
+                        id="first"
+                        name="first"
+                        value={formData.first}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        placeholder="Message"
+                        id="second"
+                        name="second"
+                        value={formData.second}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        placeholder="Enter the webhook URL or none"
+                        id="third"
+                        name="third"
+                        value={formData.third}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <Button variant="outline-success" onClick={submitForm}>
+                      Submit
+                    </Button>
+                  </div>
+                  ):(
+                    <div>
+                    <p>
+                      Alert Type: <b>{alertType.toUpperCase()}</b>
+                    </p>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        placeholder="Please Enter the service you want to check"
+                        id="first"
+                        name="first"
+                        value={formData.first}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        placeholder="Message"
+                        id="second"
+                        name="second"
+                        value={formData.second}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        placeholder="Enter the webhook URL or none"
+                        id="third"
+                        name="third"
+                        value={formData.third}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <Button variant="outline-success" onClick={submitForm}>
+                      Submit
+                    </Button>
+                  </div>
+
+                )}
+
+                {/* <p>Alert Type: <b>{alertType.toUpperCase()}</b></p> */}
+                {/* <div className="form-group"><input type="text" placeholder="Tcp port" id="first" name="first" value={formData.first} onChange={handleChange}/> </div> */}
+                {/* <div className="form-group"><input type="text" placeholder="Message" id="second" name="second" value={formData.second} onChange={handleChange}/> </div> */}
+                {/* <div className="form-group"> <input type="text" placeholder="Enter the webhook url or none" id="third" name="third" value={formData.third} onChange={handleChange}/> </div> */}
+                {/* <Button variant="outline-success" onClick={submitForm}>submit</Button> */}
             </Container>
         </div>
     )
