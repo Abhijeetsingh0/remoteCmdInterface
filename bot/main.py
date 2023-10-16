@@ -165,7 +165,7 @@ def main():
             if request["alertType"] == "url":
                 url = request["alertDetails"][0]
                 response = urlCheckerFromTheSever(url,request)
-                if response:
+                if not response:
                     sendMessage(request)
                     create_entry(file_json,{"id":request["_id"],"date":str(datetime.datetime.now())})
 
