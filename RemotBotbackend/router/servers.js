@@ -9,7 +9,7 @@ router.get("/:serverName",server.getServersByServerName)
 router.get("/host/:host",server.getServersByHostName)
 router.get("/user/:userName",server.getServersByUserName)
 router.post("/",server.postServers)
-router.delete("/:_id",server.deletServer)
+router.delete("/:_id/:serverName",server.deleteServer)
 
 
 module.exports = router

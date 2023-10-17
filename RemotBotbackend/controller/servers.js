@@ -1,4 +1,5 @@
 const { serversDetails } = require("../database/modles/servers")
+const { alertDetails } = require("../database/modles/alerts")
 
 module.exports.getServers = async (req, res) => {
     try{
@@ -50,12 +51,13 @@ module.exports.getServersByUserName = async (req,res)=>{
     }
 }
 
-module.exports.deletServer = async (req,res) => {
+module.exports.deleteServer = async (req,res) => {
     try{
-        const { _id }  = req.params
+        const { _id, serverName }  = req.params
+        console.log("here is the server name",serverName)
         const deletServer = await serversDetails.findByIdAndDelete({_id})
-        console.log(deletServer)
-        return res.status(200).send(deletServer)
+        const removeAllTheAlertsOnThisServer = await alertDetails.deleteMany({serverName})
+        return res.status(200).send(deletServer,removeAllTheAlertsOnThisServer)
     }catch(err){
         console.error('Error:', err);
         res.status(500).json({ error: `An error occurred : ${err}` });

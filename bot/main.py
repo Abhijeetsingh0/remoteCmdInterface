@@ -26,7 +26,14 @@ def CommandOnRemote(host, username, password, command):
         client.close()
     return message
 
-
+def checkTheService(reqest):
+    service = reqest["alertDetails"][0]
+    host = reqest["host"]
+    userName = reqest["userName"]
+    password = reqest["password"]
+    command = f"echo {password}"+"| sudo -S service --status-all | grep "+service
+    response = CommandOnRemote(host,userName,password,command)
+    return response
 
 def tcpChecker(reqest):
     port = int(reqest["alertDetails"][0])
@@ -132,7 +139,7 @@ def delete_entry_by_id(json_file, entry_id):
 
 
 def manageTheAlerts(id):
-    file_json = "/app/recent.json"
+    file_json = "recent.json"
     data = read_entries(file_json)
     currTime = str(datetime.datetime.now())
     for obj in data:
@@ -152,7 +159,8 @@ def timeDeff(timeDif, timestamp1, timestamp2):
 def main():
     # Your code here
     allApiRequests =  get_data_from_api()
-    file_json = "/app/recent.json"
+    print(allApiRequests)
+    file_json = "recent.json"
     for request in allApiRequests:
         manageTheAlerts(request["_id"])
         if not does_id_exist(file_json,request["_id"]):
@@ -166,6 +174,12 @@ def main():
                 url = request["alertDetails"][0]
                 response = urlCheckerFromTheSever(url,request)
                 if not response:
+                    sendMessage(request)
+                    create_entry(file_json,{"id":request["_id"],"date":str(datetime.datetime.now())})
+            if request["alertType"] == "exec":
+                response = checkTheService(request)
+                print("This is the point to check: ",response)
+                if " [ + ] "+request["alertDetails"][0] != response :
                     sendMessage(request)
                     create_entry(file_json,{"id":request["_id"],"date":str(datetime.datetime.now())})
 

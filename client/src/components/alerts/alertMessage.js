@@ -28,30 +28,34 @@ const AlertMessage = () =>{
     const [temp, setTemp] = useState(0)
     const [messageCount, setMessageCount] = useState(0)
     const [messages , setMessages] = useState([])
+    const [empty, setEmpty] = useState(true)
 
     useEffect(()=>{
       setInterval(() => {
         setTemp((prevTemp)=>prevTemp+1)
       }, 1000);
-    }, [])
+    })
 
     useEffect(()=>{
       fetchData()
-    }, [temp])
+    },[temp])
 
-    const fetchData = () =>{
+    const fetchData = async () =>{
         // console.log("test")
         const apiUrl = `${BACKEND_URL}/alert/message`;
-        fetch(apiUrl, {
+        await fetch(apiUrl, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         }).then((response) => response.json())
           .then((data) => {
+            if(data.data == [] || data.data.length > 0){
+                setEmpty(false)
+            }
             if(messageCount !== data.data.length){
                 // push notification
-                const lastMessage = data.data[data.data.length-1]
+                // const lastMessage = data.data[data.data.length-1]
                 setMessageCount(data.data.length)
                 setMessages(data.data)
             }
@@ -62,28 +66,28 @@ const AlertMessage = () =>{
         })
     }
 
-    if(messages === null){
-        return(
-          <>
-            <h1>Alerts</h1>
-            <span/>
-            <h3>WOOOHUU there is no alert</h3>
-          </>
-        )
-    }else{
+    
       return(
         <>
             <h1>Alerts</h1>
             <span/>
-            {messages.slice(0).reverse().map((message,index)=>(
-                <Container key={index}>
-                    <MessageList message={message}/>
-                </Container>
-            ))}
+            {empty ? (
+              <div>
+                  WOOOHUU there is no alert
+              </div>
+            ) : (
+              <div>
+                  {messages.slice(0).reverse().map((message,index)=>(
+                    <Container key={index}>
+                        <MessageList message={message}/>
+                    </Container>
+                  ))}
+              </div>
+            )}
         </>
       )
     }
 
-}
+
 
 export default AlertMessage;

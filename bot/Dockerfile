@@ -30,3 +30,6 @@ RUN crontab /etc/cron.d/cronjob_script
 
 # Start the cron service in the background
 CMD ["cron", "-f"]
+
+
+# docker run -d -p 222:22 remoteappbot

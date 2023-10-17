@@ -34,8 +34,8 @@ function ServerList() {
       })
   }, [history,deleted]);
 
-  const deleteServer = (id) => {
-      const apiUrl = `${BACKEND_URL}/servers/${id}`
+  const deleteServer = (id,serverName) => {
+      const apiUrl = `${BACKEND_URL}/servers/${id}/${serverName}`
       fetch(apiUrl,{
         method : "DELETE",
         headers:{
@@ -77,7 +77,7 @@ function ServerList() {
                 <td>{server.host}</td>
                 <td>{server.userName}</td>
                 <td> <Link to={`/command/server/${server.serverName}`} > <Button variant="primary">Click</Button></Link></td>
-                <td> <Button variant="outline-danger" onClick={()=>deleteServer(server._id)}> Delete </Button> </td>
+                <td> <Button variant="outline-danger" onClick={()=>deleteServer(server._id,server.serverName)}> Delete </Button> </td>
               </tr>
             ))}
           </tbody>
