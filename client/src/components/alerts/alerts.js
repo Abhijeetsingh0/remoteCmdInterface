@@ -79,6 +79,7 @@ const Alerts = () => {
         .catch((error) => {
           console.log("Error:",error)
           alert(`An error ${error.message}. Redirecting to home page.`);
+          history.push("/");
       })
     }
 

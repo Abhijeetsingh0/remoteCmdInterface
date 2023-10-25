@@ -2,6 +2,7 @@ import React from "react";
 import {useEffect, useState} from "react";
 import { BACKEND_URL } from "../../variable";
 import { Container, ListGroup, Badge } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import "./alerts.css"
 
 function MessageList({ message }) {
@@ -29,6 +30,7 @@ const AlertMessage = () =>{
     const [messageCount, setMessageCount] = useState(0)
     const [messages , setMessages] = useState([])
     const [empty, setEmpty] = useState(true)
+    const history = useHistory()
 
     useEffect(()=>{
       setInterval(() => {
@@ -63,6 +65,7 @@ const AlertMessage = () =>{
           .catch((error) => {
             console.log("Error:",error)
             alert(`An error ${error.message}. Redirecting to home page.`);
+            history.push("/");
         })
     }
 

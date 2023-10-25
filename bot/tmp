@@ -1,0 +1,60 @@
+- name: Set Gateway for eth0
+  nvidia.nvue.command:
+    commands:
+    - set interface " {{ inter }} " ip gateway "{{ GATEWAY }}"
+    atomic: true
+    assume_yes: true
+  vars:
+    INTER: eth0
+    GATEWAY: 10.91.242.129
+    
+
+
+
+- name: Set Gateway for eth0
+  nvidia.nvue.command:
+    commands:
+    - set interface eth0 ip gateway 10.91.242.129
+
+
+
+
+
+
+
+"CHCLDCNACH2WB01 
+10.20.16.202 
+CHCLDCNACH2WB02 
+10.20.16.203 
+CHCLDCNACH2AP01 
+10.20.16.194 
+CHCLDCNACH2AP02 
+10.20.16.195 
+CHCLDCNACH2AP03 
+10.20.16.196 
+CHCLDCNACH2DB01 
+10.20.16.210 
+CHCLDCNACH2DB02 
+10.20.16.211 
+CHOCLUCACHUWB01 
+10.20.72.26 
+CHOCLUCACHUAP06 
+10.20.72.39 
+CHOCLUCACHUDB05 
+10.20.72.54"
+
+
+
+========================
+
+
+CHCLDCNACH2WB01
+CHCLDCNACH2WB02
+CHCLDCNACH2AP01
+CHCLDCNACH2AP02
+CHCLDCNACH2AP03
+CHCLDCNACH2DB01
+CHCLDCNACH2DB02
+CHOCLUCACHUWB01
+CHOCLUCACHUAP06
+CHOCLUCACHUDB05

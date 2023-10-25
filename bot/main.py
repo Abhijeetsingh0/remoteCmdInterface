@@ -5,6 +5,7 @@ import datetime
 import json
 from variable import BACKEND_URL
 
+#to run the command on the remote server
 def CommandOnRemote(host, username, password, command):
     message = ""
     client = paramiko.SSHClient()
@@ -20,21 +21,22 @@ def CommandOnRemote(host, username, password, command):
         print("Authentication failed. Please check the username and password.")
     except paramiko.SSHException as ssh_err:
         print("SSH error occurred:", str(ssh_err))
-    except paramiko.SSHException as e:
-        print("An error occurred:", str(e))
     finally:
         client.close()
     return message
 
+#to check the serice is running on the requests server
 def checkTheService(reqest):
     service = reqest["alertDetails"][0]
     host = reqest["host"]
     userName = reqest["userName"]
     password = reqest["password"]
-    command = f"echo {password}"+"| sudo -S service --status-all | grep "+service
+    command = f"echo {password}"+"| sudo -S service --status-all | grep "+service +" > /tmp/bot.log && cat /tmp/bot.log"
     response = CommandOnRemote(host,userName,password,command)
+    print(response)
     return response
 
+#to check if the tcp port is up running for reqested server
 def tcpChecker(reqest):
     port = int(reqest["alertDetails"][0])
     host = reqest["host"]
@@ -46,6 +48,7 @@ def tcpChecker(reqest):
     except (socket.timeout, ConnectionRefusedError):
         return False
 
+#to check the URL status on if we try to reach from the reqestes server
 def urlCheckerFromTheSever(url,details):
     command = "curl -Is " + url +"| head -n 1 | awk '{print $2}' > /tmp/bot.log && cat /tmp/bot.log"
     host = details["host"]
@@ -60,7 +63,8 @@ def urlCheckerFromTheSever(url,details):
         if statusCode >= 400 and statusCode <= 600:
             return False
     return True 
-    
+
+#to post/send the message to the required api
 def sendMessage(request):
     print("from the send message",request)
     data = {
@@ -77,7 +81,8 @@ def sendMessage(request):
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
         return None
-  
+
+# to get the data/all the alert requests which need to check
 def get_data_from_api():
     try:
         response = requests.get(BACKEND_URL+"/alert/")
@@ -90,6 +95,13 @@ def get_data_from_api():
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
         return None
+
+#this part of the code is to take care of the alert continuation casue this program
+#will run every minute inside the conatiner and if somthing goes wrong the alert will
+#keep comming again and again every minute so we can store the data of the perticular alert
+#into the json file and check if the perticualr alert have been send or not and if yes then 
+#it must be after 30 min only and in order to manage this we need to maintain recent.json file
+#all the below function is responsible to communicate with it.
 
 def create_entry(json_file, new_entry):
     try:
@@ -128,15 +140,11 @@ def delete_entry_by_id(json_file, entry_id):
             data = json.load(file)
     except FileNotFoundError:
         return
-
     entries = data.get("entries", [])
     entries = [entry for entry in entries if entry.get("id") != entry_id]
-
     data["entries"] = entries
-
     with open(json_file, 'w') as file:
         json.dump(data, file, indent=4)
-
 
 def manageTheAlerts(id):
     file_json = "recent.json"
@@ -147,6 +155,7 @@ def manageTheAlerts(id):
             # print(obj["id"])
             delete_entry_by_id(file_json,obj["id"])
 
+#to find the time diff of the alert time and current time. 
 def timeDeff(timeDif, timestamp1, timestamp2):
     dt1 = datetime.datetime.strptime(timestamp1, "%Y-%m-%d %H:%M:%S.%f")
     dt2 = datetime.datetime.strptime(timestamp2, "%Y-%m-%d %H:%M:%S.%f")
@@ -155,7 +164,8 @@ def timeDeff(timeDif, timestamp1, timestamp2):
         return True
     else:
         return False
-    
+
+#main funtion    
 def main():
     # Your code here
     allApiRequests =  get_data_from_api()
@@ -178,12 +188,10 @@ def main():
                     create_entry(file_json,{"id":request["_id"],"date":str(datetime.datetime.now())})
             if request["alertType"] == "exec":
                 response = checkTheService(request)
-                print("This is the point to check: ",response)
-                if " [ + ] "+request["alertDetails"][0] != response :
+                if '+' not in response :
                     sendMessage(request)
                     create_entry(file_json,{"id":request["_id"],"date":str(datetime.datetime.now())})
+    # print(allApiRequests)
 
-    print(allApiRequests)
-            
 if __name__ == "__main__":
     main()

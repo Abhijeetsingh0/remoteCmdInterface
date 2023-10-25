@@ -12,7 +12,6 @@ import { BACKEND_URL } from '../../variable';
 const RunCommandOnServer = (props) =>{
 
     const serverDetails = props.location.state.data
-    const history = useHistory()
 
     const [showA, setShowA] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +22,7 @@ const RunCommandOnServer = (props) =>{
         password   : serverDetails.password,
         command    : ''
     })
-
+    const history = useHistory()
     const [isSudo, SetIsSudo] = useState(false)
 
     const handleChange = (e) => {
@@ -63,15 +62,13 @@ const RunCommandOnServer = (props) =>{
           .catch((error) => {
             console.log("Error:",error)
             alert(`An error ${error.message}. Redirecting to home page.`);
-            history.push("/");
+            console.log(error)
         }).finally(() => {
             setIsLoading(false); // Stop loading after API call is complete
         });
     };
 
     const toggleShowA = () => setShowA(!showA);
-
-
     return(
         <div>
        <div className='toggler'>
